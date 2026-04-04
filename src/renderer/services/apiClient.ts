@@ -1,6 +1,7 @@
 import { getToken } from "@/services/authStore";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_BASE =
+  import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/api" : "http://localhost:4000");
 
 export async function apiRequest<T>(path: string, options: RequestInit = {}) {
   const token = getToken();
