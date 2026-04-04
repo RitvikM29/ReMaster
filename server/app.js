@@ -31,6 +31,13 @@ app.get("/health", (_req, res) => {
 app.use("/sessions", require("./routes/sessions"));
 app.use("/analytics", require("./routes/analytics"));
 
+// Vercel serverless paths include the /api prefix, so mount duplicates there too.
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true });
+});
+app.use("/api/sessions", require("./routes/sessions"));
+app.use("/api/analytics", require("./routes/analytics"));
+
 async function start() {
   await initDb();
   app.listen(PORT, () => {
