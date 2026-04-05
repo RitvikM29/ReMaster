@@ -12,6 +12,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import TimerDisplay from "@/components/TimerDisplay";
 import { formatHours } from "@/utils/time";
 import { calcFocusScore } from "@/utils/focusScore";
+import { showToast } from "@/services/toast";
 import { useTimer } from "./useTimer";
 
 const PRESETS = [
@@ -127,6 +128,7 @@ export default function TimerScreen() {
     if (!pendingSession) return;
     try {
       await createSession(pendingSession);
+      showToast("Session saved to history.");
       setPendingSession(null);
       setShowSavePrompt(false);
       setSessionStartedAt(null);

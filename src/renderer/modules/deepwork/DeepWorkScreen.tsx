@@ -6,6 +6,7 @@ import { useTabSwitchGuard } from "@/services/tabGuard";
 import { useSessionMetrics } from "@/services/sessionMetrics";
 import { useSettings } from "@/services/settingsStore";
 import { createSession } from "@/services/sessionApi";
+import { showToast } from "@/services/toast";
 import { FocusSession } from "@/types";
 import ConfirmModal from "@/components/ConfirmModal";
 import { calcFocusScore } from "@/utils/focusScore";
@@ -122,6 +123,7 @@ export default function DeepWorkScreen() {
     if (!pendingSession) return;
     try {
       await createSession(pendingSession);
+      showToast("Session saved to history.");
       setPendingSession(null);
       setShowSavePrompt(false);
       setSessionStartedAt(null);

@@ -10,6 +10,7 @@ import { createSession } from "@/services/sessionApi";
 import { FocusSession } from "@/types";
 import ConfirmModal from "@/components/ConfirmModal";
 import { calcFocusScore } from "@/utils/focusScore";
+import { showToast } from "@/services/toast";
 import { formatDuration, formatHours } from "@/utils/time";
 import { useStopwatch } from "./useStopwatch";
 
@@ -87,6 +88,7 @@ export default function StopwatchScreen() {
     if (!pendingSession) return;
     try {
       await createSession(pendingSession);
+      showToast("Session saved to history.");
       setPendingSession(null);
       setShowSavePrompt(false);
       setSessionStartedAt(null);

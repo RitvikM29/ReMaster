@@ -1,6 +1,6 @@
 # ReMaster (Focus OS)
 
-A modern, minimal productivity web app for focus sessions with analytics, smart insights, and distraction tracking. Includes user accounts and Postgres-backed storage.
+A modern, minimal productivity web app for focus sessions with analytics, smart insights, and distraction tracking. Uses a Postgres backend for session storage.
 
 ## Features
 - Timer, Stopwatch, and Deep Work modes
@@ -9,7 +9,6 @@ A modern, minimal productivity web app for focus sessions with analytics, smart 
 - Weekly sessions heatmap (LeetCode-style)
 - Analytics dashboard (weekly trends, focus scores, subjects)
 - Idle + tab visibility tracking
-- Auth (signup/login) with seeded sessions on signup
 - Clean, modern UI with smooth animations
 
 ## Tech Stack
@@ -48,10 +47,6 @@ Create `.env` in the project root:
 PORT=4000
 CORS_ORIGIN=http://localhost:5173
 DATABASE_URL=postgresql://postgres.hmetouyremaililsxvtb:YOUR_PASSWORD@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres
-AUTH_SECRET=your_secret_here
-APP_URL=http://localhost:5173
-RESEND_API_KEY=your_resend_key
-RESEND_FROM=ReMaster <onboarding@resend.dev>
 ```
 
 Create `.env.local` for the frontend:
@@ -73,18 +68,27 @@ npm run dev
 
 ### 1) Add env vars in Vercel
 - `DATABASE_URL`
-- `AUTH_SECRET`
 - `CORS_ORIGIN` (your Vercel domain)
-- `VITE_API_URL` (your Vercel domain)
+- `VITE_API_URL` (optional, your Vercel domain + `/api`)
 
 ### 2) Deploy
 ```
 vercel
 ```
 
+## Final Deploy Checklist
+1. In Vercel, set `DATABASE_URL`, `CORS_ORIGIN`, and optionally `VITE_API_URL`.
+2. Redeploy with `vercel --prod --force`.
+3. Confirm API health: `https://<your-app>.vercel.app/api/health` returns `{"ok":true}`.
+4. Save a session and verify:
+   - History updates
+   - Analytics refreshes
+   - Toast appears on save
+5. Optional: add preview env vars if you use preview deployments.
+
 ## Notes
 - Supabase pooler connection string is recommended for serverless.
-- Seed sessions are generated on signup to populate the heatmap.
+- The heatmap uses last 4 weeks of session data.
 
 ## Screenshots
 Add screenshots here:

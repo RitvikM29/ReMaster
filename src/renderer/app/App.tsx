@@ -9,6 +9,7 @@ import StopwatchScreen from "@/modules/stopwatch/StopwatchScreen";
 import DeepWorkScreen from "@/modules/deepwork/DeepWorkScreen";
 import SettingsScreen from "@/pages/SettingsScreen";
 import HistoryDashboard from "@/pages/HistoryDashboard";
+import ToastHost from "@/components/ToastHost";
 
 export type ScreenKey =
   | "home"
@@ -28,6 +29,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen grid grid-cols-[260px_1fr] gap-6 p-6">
+      <ToastHost />
       <aside className="card flex flex-col gap-8 p-6">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent shadow-glow" />

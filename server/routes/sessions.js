@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     console.error(error);
     res.status(400).json({
       error: "Invalid session data",
-      detail: error?.message
+      detail: process.env.NODE_ENV === "production" ? undefined : error?.message
     });
   }
 });
