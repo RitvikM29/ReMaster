@@ -43,6 +43,12 @@ async function initDb() {
     );
   `);
 
+  // Backfill schema for older databases without user_id.
+  await pool.query(`
+    ALTER TABLE sessions
+    ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+  `);
+
   // Allow anonymous sessions (no auth) by ensuring user_id is nullable.
   await pool.query(`
     ALTER TABLE sessions
