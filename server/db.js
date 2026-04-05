@@ -43,6 +43,12 @@ async function initDb() {
     );
   `);
 
+  // Allow anonymous sessions (no auth) by ensuring user_id is nullable.
+  await pool.query(`
+    ALTER TABLE sessions
+    ALTER COLUMN user_id DROP NOT NULL
+  `);
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS auth_tokens (
       id SERIAL PRIMARY KEY,
