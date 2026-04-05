@@ -1,9 +1,10 @@
 const express = require("express");
-const { pool } = require("../db");
+const { pool, ensureDb } = require("../db");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
+    await ensureDb();
     const payload = req.body || {};
     const result = await pool.query(
       `
@@ -38,11 +39,15 @@ router.post("/", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Invalid session data" });
+    res.status(400).json({
+      error: "Invalid session data",
+      detail: process.env.NODE_ENV === "production" ? undefined : error?.message
+    });
   }
 });
 
 router.get("/", async (_req, res) => {
+  await ensureDb();
   const result = await pool.query("SELECT * FROM sessions ORDER BY started_at DESC LIMIT 500");
   const sessions = result.rows.map((row) => ({
     id: row.id,

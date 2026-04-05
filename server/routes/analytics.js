@@ -1,9 +1,10 @@
 const express = require("express");
-const { pool } = require("../db");
+const { pool, ensureDb } = require("../db");
 const { generateInsights } = require("../utils/insights");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
+  await ensureDb();
   const result = await pool.query("SELECT * FROM sessions ORDER BY started_at DESC");
   const sessions = result.rows.map((row) => ({
     id: row.id,

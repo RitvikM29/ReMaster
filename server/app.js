@@ -4,10 +4,15 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const { initDb } = require("./db");
+const { initDb, ensureDb } = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+
+// Ensure DB is initialized in serverless environments.
+ensureDb().catch((error) => {
+  console.error("DB init failed", error);
+});
 
 const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
   .split(",")

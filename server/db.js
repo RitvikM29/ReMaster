@@ -62,7 +62,19 @@ async function initDb() {
   `);
 }
 
+let initPromise = null;
+function ensureDb() {
+  if (!initPromise) {
+    initPromise = initDb().catch((error) => {
+      initPromise = null;
+      throw error;
+    });
+  }
+  return initPromise;
+}
+
 module.exports = {
   pool,
-  initDb
+  initDb,
+  ensureDb
 };
